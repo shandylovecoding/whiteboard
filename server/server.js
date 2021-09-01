@@ -9,8 +9,6 @@ const io = require('socket.io')(http,{
       }
   });
 
-
-
 io.on('connection', (socket)=> {
       console.log('User Online');
 
@@ -19,8 +17,7 @@ io.on('connection', (socket)=> {
             
       })
       socket.on('clear', (data)=> {
-            socket.broadcast.emit('clear', data);
-            
+            socket.broadcast.emit('clear', data);   
       })
 })
 

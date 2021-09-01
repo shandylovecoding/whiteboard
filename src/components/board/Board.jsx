@@ -118,20 +118,21 @@ class Board extends React.Component {
 
 
     }
-    clearcanvas  () {
+    clearcanvas() {
         var canvas = document.querySelector('#board');
         var ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         var base64ImageData = canvas.toDataURL("image/png");
         this.socket.emit("clear", base64ImageData);
-
     }
 
     render() {
         return (
+
             <div class="sketch" id="sketch">
+                <button onClick={() => this.clearcanvas()} >Clear</button>
+                <button onClick={() => this.submitcanvas()} >Submit</button>
                 <canvas className="board" id="board"></canvas>
-                <button onClick={()=>this.clearcanvas()} >Clear</button>
             </div>
         )
     }

@@ -47,6 +47,7 @@ class Container extends React.Component
                             <option> 30 </option>
                         </select>
                     </div>
+                    
 
                 </div>
 
@@ -54,9 +55,6 @@ class Container extends React.Component
                     <Board color={this.state.color} size={this.state.size}></Board>
                 </div>
 
-                <div>
-                   
-                </div>
             </div>
         )
     }
