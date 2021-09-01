@@ -6,13 +6,14 @@ import './style.css';
 class Board extends React.Component {
 
     timeout;
-    socket = io.connect("http://192.168.1.137:5000");
 
     ctx;
     isDrawing = false;
 
     constructor(props) {
         super(props);
+        this.socket = io.connect("http://192.168.1.137:5000");
+
         this.socket.on("clear", () => {
             var canvas = document.querySelector('#board');
             var ctx = canvas.getContext('2d');
@@ -47,7 +48,7 @@ class Board extends React.Component {
         this.ctx.strokeStyle = newProps.color;
         this.ctx.lineWidth = newProps.size;
     }
-    
+
     drawOnCanvas() {
         var canvas = document.querySelector('#board');
         this.ctx = canvas.getContext('2d');
@@ -114,15 +115,15 @@ class Board extends React.Component {
             root.socket.emit("canvas-data", base64ImageData);
 
         };
-       
-        
+
+
     }
-    clearcanvas(){
+    clearcanvas  () {
         var canvas = document.querySelector('#board');
         var ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         var base64ImageData = canvas.toDataURL("image/png");
-        this.socket.emit("clear", );
+        this.socket.emit("clear", base64ImageData);
 
     }
 
@@ -130,7 +131,7 @@ class Board extends React.Component {
         return (
             <div class="sketch" id="sketch">
                 <canvas className="board" id="board"></canvas>
-                <button onClick={this.clearcanvas} >Clear</button>
+                <button onClick={()=>this.clearcanvas()} >Clear</button>
             </div>
         )
     }
