@@ -53,6 +53,10 @@ class Container extends React.Component
                 <div class="board-container">
                     <Board color={this.state.color} size={this.state.size}></Board>
                 </div>
+
+                <div>
+                   
+                </div>
             </div>
         )
     }
