@@ -12,7 +12,7 @@ class Board extends React.Component {
 
     constructor(props) {
         super(props);
-        this.socket = io.connect("http://192.168.1.137:5000");
+        this.socket = io.connect("http://192.168.128.143:5000");
 
         this.socket.on("clear", () => {
             var canvas = document.querySelector('#board');
@@ -126,16 +126,15 @@ class Board extends React.Component {
         this.socket.emit("clear", base64ImageData);
     }
 
+    
     render() {
         return (
 
             <div class="sketch" id="sketch">
-                <button onClick={() => this.clearcanvas()} >Clear</button>
-                <button onClick={() => this.submitcanvas()} >Submit</button>
+
                 <canvas className="board" id="board"></canvas>
             </div>
         )
     }
 }
-
 export default Board
