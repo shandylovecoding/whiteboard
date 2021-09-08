@@ -48,6 +48,7 @@ class Container extends React.Component {
                         </select>
                     </div>
                     <button onClick={() => board.clearcanvas()} >Clear</button>
+                    <button onClick={() => board.submit()}>Submit</button>
                 </div>
 
                 <div class="board-container">

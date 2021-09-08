@@ -1,8 +1,12 @@
 var app = require('express')();
+const upload = require('express-fileupload');
 var http = require('http').createServer(app);
 // var io = require('socket.io')(http);
 const cors = require('cors')
+
 app.use(cors())
+app.use(upload())
+
 const io = require('socket.io')(http,{
       cors: {
                 origin:"*"
@@ -19,6 +23,10 @@ io.on('connection', (socket)=> {
       socket.on('clear', (data)=> {
             socket.broadcast.emit('clear', data);   
       })
+})
+
+app.post("/", (req, res) => {
+      console.log("CANVAS DATA >> ", req.files)
 })
 
 var server_port = process.env.YOUR_PORT || process.env.PORT || 5000;

@@ -1,7 +1,9 @@
 import React from 'react';
 import io from 'socket.io-client';
-
 import './style.css';
+import FormData from 'form-data';
+const axios = require("axios");
+
 
 class Board extends React.Component {
 
@@ -124,6 +126,40 @@ class Board extends React.Component {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         var base64ImageData = canvas.toDataURL("image/png");
         this.socket.emit("clear", base64ImageData);
+    }
+
+    submit(){
+        console.log("HELLO")
+        var canvas = document.querySelector('#board');
+        var ctx = canvas.getContext('2d');
+        var base64ImageData = canvas.toDataURL("image/png");
+        //console.log(base64ImageData)
+ 
+        const dataURLtoFile = (dataurl, filename) => {
+            const arr = dataurl.split(',')
+            const mime = arr[0].match(/:(.*?);/)[1]
+            const bstr = Buffer.from(arr[1], 'base64').toString('utf-8')
+            //console.log(bstr)
+            let n = bstr.length
+            const u8arr = new Uint8Array(n)
+            while (n) {
+              u8arr[n - 1] = bstr.charCodeAt(n - 1)
+              n -= 1 // to make eslint happy
+            }
+            return new File([u8arr], filename, { type: mime })
+          }
+          
+          // generate file from base64 string
+          const file = dataURLtoFile(`data:image/png;base64,${base64ImageData}`)
+          // put file into form data
+          const data = new FormData()
+          data.append('img', file, file.name)
+          
+          // now upload
+          const config = {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          }
+          axios.post("http://localhost:5000/", data, config)
     }
 
     
