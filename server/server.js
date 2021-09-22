@@ -15,14 +15,23 @@ const io = require('socket.io')(http,{
 
 io.on('connection', (socket)=> {
       console.log('User Online');
-
-      socket.on('canvas-data', (data)=> {
-            socket.broadcast.emit('canvas-data', data);
-            
-      })
-      socket.on('clear', (data)=> {
-            socket.broadcast.emit('clear', data);   
-      })
+  socket.on('newUser', (room) => {
+    socket.join(room)
+    console.log(`User joined room ${room} !`)
+  })
+  socket.on('canvas-data', (room, data)=> {
+      console.log(`Drawing on canvas in room ${room}`)
+        socket.to(room).emit('canvas-data', data);
+        
+  })
+  socket.on('clear', (room, data)=> {
+      console.log(`Clear canvas in room ${room}`)
+      socket.to(room).emit('clear', data);   
+  })
+  
+  socket.on('disconnect', () => {
+    console.log("User disconnected from room")
+  })
 })
 
 app.post("/", (req, res) => {

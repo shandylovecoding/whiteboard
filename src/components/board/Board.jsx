@@ -14,7 +14,8 @@ class Board extends React.Component {
 
     constructor(props) {
         super(props);
-        this.socket = io.connect("http://192.168.128.143:5000");
+        this.socket = io.connect("http://172.20.10.8:5000");
+        this.socket.emit("newUser", 1)
 
         this.socket.on("clear", () => {
             var canvas = document.querySelector('#board');
@@ -107,6 +108,7 @@ class Board extends React.Component {
         var root = this;
         //onPaint
         var drawLine = function (x0, y0, x1, y1) {
+            console.log("drawing")
             ctx.beginPath();
             ctx.moveTo(x0, y0);
             ctx.lineTo(x1, y1);
@@ -114,7 +116,7 @@ class Board extends React.Component {
             ctx.closePath();
 
             var base64ImageData = canvas.toDataURL("image/png");
-            root.socket.emit("canvas-data", base64ImageData);
+            root.socket.emit("canvas-data", 1, base64ImageData);
 
         };
 
@@ -125,7 +127,7 @@ class Board extends React.Component {
         var ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         var base64ImageData = canvas.toDataURL("image/png");
-        this.socket.emit("clear", base64ImageData);
+        this.socket.emit("clear", 1, base64ImageData);
     }
 
     submit(){
